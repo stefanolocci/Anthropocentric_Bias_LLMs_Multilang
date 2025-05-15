@@ -1,0 +1,1 @@
+# Anthropocentric_Bias_LLMs_Multilang
