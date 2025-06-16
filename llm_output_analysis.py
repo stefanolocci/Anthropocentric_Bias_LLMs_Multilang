@@ -64,3 +64,36 @@ def calculate_bigram_overlap(doc1, doc2, name1, name2):
         result[bigram] = {f'count_in_{name1}': count1[bigram], f'count_in_{name2}': count2[bigram]}
 
     return result
+
+"""## Save unigrams and bigrams overlap"""
+
+import json
+
+# Load the JSON file
+with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/output/{experiment_name}.json', 'r') as file:
+    data = json.load(file)
+
+# Use the specific fields from the JSON data
+res_1 = calculate_word_overlap(data["neutral_prompt"], data["anthropocentric_prompt"], "neutral", "anthropocentric")
+res_2 = calculate_word_overlap(data["neutral_prompt"], data["ecocentric_prompt"], "neutral", "ecocentric")
+
+res_b_1 = calculate_bigram_overlap(data["neutral_prompt"], data["anthropocentric_prompt"], "neutral", "anthropocentric")
+res_b_2 = calculate_bigram_overlap(data["neutral_prompt"], data["ecocentric_prompt"], "neutral", "ecocentric")
+
+# Save the result to a JSON file
+with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/words_stats/unigrams/{experiment_name}_neutral_anth.json',
+          'w') as file:
+    json.dump(res_1, file, indent=4)
+
+with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/words_stats/unigrams/{experiment_name}_neutral_eco.json',
+          'w') as file:
+    json.dump(res_2, file, indent=4)
+
+# Save the result to a JSON file
+with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/words_stats/bigrams/{experiment_name}_neutral_anth.json',
+          'w') as file:
+    json.dump(res_b_1, file, indent=4)
+
+with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/words_stats/bigrams/{experiment_name}_neutral_eco.json',
+          'w') as file:
+    json.dump(res_b_2, file, indent=4)

@@ -1,4 +1,3 @@
-
 def write_list_to_json(my_list, filename):
     # Mapping list elements to specified labels
     data = {
@@ -10,6 +9,7 @@ def write_list_to_json(my_list, filename):
     # Writing JSON data to a file
     with open(filename, 'w') as file:
         json.dump(data, file, indent=4)
+
 
 def list_filenames(directory):
     try:
@@ -32,21 +32,25 @@ def list_filenames(directory):
         print(f"An error occurred: {e}")
         return []
 
+
 # Specify the directory to iterate through
 directory_path = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/output"
 
 # Get and print the list of filenames
 list_filenames(directory_path)
 
-filenames = ['what_are_animals_for', 'what_is_the_soil_for', 'what_is_the_soil_good_for', 'what_are_animals_good_for', 'what_are_mountains_good_for', 'what_are_the_negative_effects_of_climate_change', 'what_are_the_negative_effects_of_climate_change_on_humans', 'what_are_the_negative_effects_of_climate_change_on_non_human_entities', 'pigs_are', 'provide_a_description_of_chickens', 'provide_a_description_of_cows', 'provide_a_description_of_wolves', 'provide_a_description_of_fishes', 'provide_a_description_of_trees', 'provide_a_description_of_soil', 'provide_a_description_of_mountains', 'dogs_are', 'horses_are', 'sea_is', 'rivers_are']
-
-
+filenames = ['what_are_animals_for', 'what_is_the_soil_for', 'what_is_the_soil_good_for', 'what_are_animals_good_for',
+             'what_are_mountains_good_for', 'what_are_the_negative_effects_of_climate_change',
+             'what_are_the_negative_effects_of_climate_change_on_humans',
+             'what_are_the_negative_effects_of_climate_change_on_non_human_entities', 'pigs_are',
+             'provide_a_description_of_chickens', 'provide_a_description_of_cows', 'provide_a_description_of_wolves',
+             'provide_a_description_of_fishes', 'provide_a_description_of_trees', 'provide_a_description_of_soil',
+             'provide_a_description_of_mountains', 'dogs_are', 'horses_are', 'sea_is', 'rivers_are']
 
 """# Aggregate outputs"""
 
 import os
 import json
-from google.colab import drive
 
 
 def aggregate_prompts(input_directory, output_directory):
@@ -96,6 +100,7 @@ def aggregate_prompts(input_directory, output_directory):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Specify input and output directories
 input_directory = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/output"
 output_directory = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs"
@@ -115,6 +120,7 @@ from google.colab import drive
 # Load the spaCy model
 nlp = spacy.load("en_core_web_sm")
 
+
 def extract_noun_phrases_from_file(file_path):
     try:
         # Read the content of the file
@@ -125,13 +131,15 @@ def extract_noun_phrases_from_file(file_path):
         doc = nlp(content)
 
         # Extract noun phrases and convert to lowercase
-        noun_phrases = {chunk.text.lower() for chunk in doc.noun_chunks if not any(token.is_stop or token.is_punct for token in chunk)}
+        noun_phrases = {chunk.text.lower() for chunk in doc.noun_chunks if
+                        not any(token.is_stop or token.is_punct for token in chunk)}
 
         return noun_phrases
 
     except Exception as e:
         print(f"An error occurred while processing {file_path}: {e}")
         return set()
+
 
 def extract_all_noun_phrases(input_files):
     try:
@@ -146,6 +154,7 @@ def extract_all_noun_phrases(input_files):
         print(f"An error occurred: {e}")
         return set(), set(), set()
 
+
 # Specify the aggregated input files
 input_files = {
     "neutral": "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs/neutral_outputs.txt",
@@ -156,56 +165,6 @@ input_files = {
 # Run the extraction
 neutral_noun_phrases, anthropocentric_noun_phrases, ecocentric_noun_phrases = extract_all_noun_phrases(input_files)
 
-"""## Single Prompts"""
-
-import os
-import spacy
-
-# Load the spaCy model
-nlp = spacy.load("en_core_web_sm")
-
-def extract_noun_phrases_from_file(file_path):
-    try:
-        # Read the content of the file
-        with open(file_path, 'r') as file:
-            content = file.read()
-
-        # Process the content with spaCy
-        doc = nlp(content)
-
-        # Extract noun phrases and convert to lowercase
-        noun_phrases = {chunk.text.lower() for chunk in doc.noun_chunks if not any(token.is_stop or token.is_punct for token in chunk)}
-
-        return noun_phrases
-
-    except Exception as e:
-        print(f"An error occurred while processing {file_path}: {e}")
-        return set()
-
-# Base path where the files are located
-base_path = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/output"
-
-# Extract noun phrases from specific files
-what_are_animals_for_np = extract_noun_phrases_from_file(os.path.join(base_path, "what_are_animals_for.json"))
-what_is_the_soil_for_np = extract_noun_phrases_from_file(os.path.join(base_path, "what_is_the_soil_for.json"))
-what_is_the_soil_good_for_np = extract_noun_phrases_from_file(os.path.join(base_path, "what_is_the_soil_good_for.json"))
-what_are_animals_good_for_np = extract_noun_phrases_from_file(os.path.join(base_path, "what_are_animals_good_for.json"))
-what_are_mountains_good_for_np = extract_noun_phrases_from_file(os.path.join(base_path, "what_are_mountains_good_for.json"))
-what_are_the_negative_effects_of_climate_change_np = extract_noun_phrases_from_file(os.path.join(base_path, "what_are_the_negative_effects_of_climate_change.json"))
-what_are_the_negative_effects_of_climate_change_on_humans_np = extract_noun_phrases_from_file(os.path.join(base_path, "what_are_the_negative_effects_of_climate_change_on_humans.json"))
-what_are_the_negative_effects_of_climate_change_on_non_human_entities_np = extract_noun_phrases_from_file(os.path.join(base_path, "what_are_the_negative_effects_of_climate_change_on_non_human_entities.json"))
-pigs_are_np = extract_noun_phrases_from_file(os.path.join(base_path, "pigs_are.json"))
-provide_a_description_of_chickens_np = extract_noun_phrases_from_file(os.path.join(base_path, "provide_a_description_of_chickens.json"))
-provide_a_description_of_cows_np = extract_noun_phrases_from_file(os.path.join(base_path, "provide_a_description_of_cows.json"))
-provide_a_description_of_wolves_np = extract_noun_phrases_from_file(os.path.join(base_path, "provide_a_description_of_wolves.json"))
-provide_a_description_of_fishes_np = extract_noun_phrases_from_file(os.path.join(base_path, "provide_a_description_of_fishes.json"))
-provide_a_description_of_trees_np = extract_noun_phrases_from_file(os.path.join(base_path, "provide_a_description_of_trees.json"))
-provide_a_description_of_soil_np = extract_noun_phrases_from_file(os.path.join(base_path, "provide_a_description_of_soil.json"))
-provide_a_description_of_mountains_np = extract_noun_phrases_from_file(os.path.join(base_path, "provide_a_description_of_mountains.json"))
-dogs_are_np = extract_noun_phrases_from_file(os.path.join(base_path, "dogs_are.json"))
-horses_are_np = extract_noun_phrases_from_file(os.path.join(base_path, "horses_are.json"))
-sea_is_np = extract_noun_phrases_from_file(os.path.join(base_path, "sea_is.json"))
-rivers_are_np = extract_noun_phrases_from_file(os.path.join(base_path, "rivers_are.json"))
 
 """# Extract verbs
 
@@ -218,6 +177,7 @@ from google.colab import drive
 
 # Load the spaCy model
 nlp = spacy.load("en_core_web_sm")
+
 
 def extract_verbs_from_file(file_path):
     try:
@@ -236,6 +196,7 @@ def extract_verbs_from_file(file_path):
     except Exception as e:
         print(f"An error occurred while processing {file_path}: {e}")
         return set()
+
 
 def extract_all_verbs(input_files):
     try:
@@ -250,6 +211,7 @@ def extract_all_verbs(input_files):
         print(f"An error occurred: {e}")
         return set(), set(), set()
 
+
 # Specify the aggregated input files
 input_files = {
     "neutral": "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs/neutral_outputs.txt",
@@ -260,58 +222,6 @@ input_files = {
 # Run the extraction
 neutral_verbs, anthropocentric_verbs, ecocentric_verbs = extract_all_verbs(input_files)
 
-"""## Single prompts
-
-"""
-
-import os
-import spacy
-
-# Load the spaCy model
-nlp = spacy.load("en_core_web_sm")
-
-def extract_verbs_from_file(file_path):
-    try:
-        # Read the content of the file
-        with open(file_path, 'r') as file:
-            content = file.read()
-
-        # Process the content with spaCy
-        doc = nlp(content)
-
-        # Extract verbs and convert to lowercase
-        verbs = {token.text.lower() for token in doc if token.pos_ == "VERB" and not (token.is_stop or token.is_punct)}
-
-        return verbs
-
-    except Exception as e:
-        print(f"An error occurred while processing {file_path}: {e}")
-        return set()
-
-# Base path where the files are located
-base_path = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/output"
-
-# Extract verbs from specific files
-what_are_animals_for_p = extract_verbs_from_file(os.path.join(base_path, "what_are_animals_for.json"))
-what_is_the_soil_for_p = extract_verbs_from_file(os.path.join(base_path, "what_is_the_soil_for.json"))
-what_is_the_soil_good_for_p = extract_verbs_from_file(os.path.join(base_path, "what_is_the_soil_good_for.json"))
-what_are_animals_good_for_p = extract_verbs_from_file(os.path.join(base_path, "what_are_animals_good_for.json"))
-what_are_mountains_good_for_p = extract_verbs_from_file(os.path.join(base_path, "what_are_mountains_good_for.json"))
-what_are_the_negative_effects_of_climate_change_p = extract_verbs_from_file(os.path.join(base_path, "what_are_the_negative_effects_of_climate_change.json"))
-what_are_the_negative_effects_of_climate_change_on_humans_p = extract_verbs_from_file(os.path.join(base_path, "what_are_the_negative_effects_of_climate_change_on_humans.json"))
-what_are_the_negative_effects_of_climate_change_on_non_human_entities_p = extract_verbs_from_file(os.path.join(base_path, "what_are_the_negative_effects_of_climate_change_on_non_human_entities.json"))
-pigs_are_p = extract_verbs_from_file(os.path.join(base_path, "pigs_are.json"))
-provide_a_description_of_chickens_p = extract_verbs_from_file(os.path.join(base_path, "provide_a_description_of_chickens.json"))
-provide_a_description_of_cows_p = extract_verbs_from_file(os.path.join(base_path, "provide_a_description_of_cows.json"))
-provide_a_description_of_wolves_p = extract_verbs_from_file(os.path.join(base_path, "provide_a_description_of_wolves.json"))
-provide_a_description_of_fishes_p = extract_verbs_from_file(os.path.join(base_path, "provide_a_description_of_fishes.json"))
-provide_a_description_of_trees_p = extract_verbs_from_file(os.path.join(base_path, "provide_a_description_of_trees.json"))
-provide_a_description_of_soil_p = extract_verbs_from_file(os.path.join(base_path, "provide_a_description_of_soil.json"))
-provide_a_description_of_mountains_p = extract_verbs_from_file(os.path.join(base_path, "provide_a_description_of_mountains.json"))
-dogs_are_p = extract_verbs_from_file(os.path.join(base_path, "dogs_are.json"))
-horses_are_p = extract_verbs_from_file(os.path.join(base_path, "horses_are.json"))
-sea_is_p = extract_verbs_from_file(os.path.join(base_path, "sea_is.json"))
-rivers_are_p = extract_verbs_from_file(os.path.join(base_path, "rivers_are.json"))
 
 """# Rankings
 
@@ -321,6 +231,7 @@ rivers_are_p = extract_verbs_from_file(os.path.join(base_path, "rivers_are.json"
 import os
 import json
 from collections import Counter
+
 
 def count_occurrences(phrases, aggregated_files, output_file, phrase_type):
     try:
@@ -352,6 +263,7 @@ def count_occurrences(phrases, aggregated_files, output_file, phrase_type):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Aggregated input files
 aggregated_files = {
     "neutral": "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs/neutral_outputs.txt",
@@ -362,6 +274,7 @@ aggregated_files = {
 # Specify output directories
 output_dir_np = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs/nouns_count"
 output_dir_v = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs/verbs_count"
+
 
 # Process all categories for nouns and verbs
 def process_all():
@@ -405,317 +318,10 @@ def process_all():
         phrase_type="verbs"
     )
 
-# Call the function to process all counts
-process_all()
-
-"""## Single Prompts
-
-"""
-
-import os
-import json
-from collections import Counter
-
-def count_occurrences(phrases, input_file, output_file, phrase_type):
-    try:
-        # Read the content of the input file
-        with open(input_file, 'r') as file:
-            content = json.load(file)
-
-        # Initialize the result dictionary
-        results = []
-
-        # Determine the specific behavior based on the file name
-        if "what_are_the_negative_effects_of_climate_change.json" in input_file:
-            count_field = "neutral_count"
-        elif "what_are_the_negative_effects_of_climate_change_on_humans.json" in input_file:
-            count_field = "anthropocentric_count"
-        elif "what_are_the_negative_effects_of_climate_change_on_non_human_entities.json" in input_file:
-            count_field = "ecocentric_count"
-        else:
-            count_field = None  # Default behavior for other files
-
-        # Count occurrences for each phrase in each category
-        for phrase in phrases:
-            result = {phrase_type: phrase}
-
-            if count_field == "neutral_count":
-                result[count_field] = content.get("neutral_prompt", "").count(phrase)
-            elif count_field == "anthropocentric_count":
-                result[count_field] = content.get("anthropocentric_prompt", "").count(phrase)
-            elif count_field == "ecocentric_count":
-                result[count_field] = content.get("ecocentric_prompt", "").count(phrase)
-            else:
-                result.update({
-                    "neutral_count": content.get("neutral_prompt", "").count(phrase),
-                    "anthropocentric_count": content.get("anthropocentric_prompt", "").count(phrase),
-                    "ecocentric_count": content.get("ecocentric_prompt", "").count(phrase),
-                })
-
-            results.append(result)
-
-        # Write the results to the output JSON file
-        with open(output_file, 'w') as file:
-            json.dump(results, file, indent=4)
-
-        print(f"{phrase_type.capitalize()} counts saved to {output_file}")
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-# Specify input and output directories
-input_dir = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/output"
-output_dir_nouns = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/single_prompt_results/noun_phrases_count/"
-output_dir_verbs = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/single_prompt_results/verbs_count/"
-
-# Process all categories for noun phrases and verbs
-def process_all():
-    # Noun phrases
-    count_occurrences(
-        what_are_animals_for_np,
-        os.path.join(input_dir, "what_are_animals_for.json"),
-        os.path.join(output_dir_nouns, "what_are_animals_for_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        what_is_the_soil_for_np,
-        os.path.join(input_dir, "what_is_the_soil_for.json"),
-        os.path.join(output_dir_nouns, "what_is_the_soil_for_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        what_is_the_soil_good_for_np,
-        os.path.join(input_dir, "what_is_the_soil_good_for.json"),
-        os.path.join(output_dir_nouns, "what_is_the_soil_good_for_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        what_are_animals_good_for_np,
-        os.path.join(input_dir, "what_are_animals_good_for.json"),
-        os.path.join(output_dir_nouns, "what_are_animals_good_for_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        what_are_mountains_good_for_np,
-        os.path.join(input_dir, "what_are_mountains_good_for.json"),
-        os.path.join(output_dir_nouns, "what_are_mountains_good_for_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        what_are_the_negative_effects_of_climate_change_np,
-        os.path.join(input_dir, "what_are_the_negative_effects_of_climate_change.json"),
-        os.path.join(output_dir_nouns, "what_are_the_negative_effects_of_climate_change_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        what_are_the_negative_effects_of_climate_change_on_humans_np,
-        os.path.join(input_dir, "what_are_the_negative_effects_of_climate_change_on_humans.json"),
-        os.path.join(output_dir_nouns, "what_are_the_negative_effects_of_climate_change_on_humans_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        what_are_the_negative_effects_of_climate_change_on_non_human_entities_np,
-        os.path.join(input_dir, "what_are_the_negative_effects_of_climate_change_on_non_human_entities.json"),
-        os.path.join(output_dir_nouns, "what_are_the_negative_effects_of_climate_change_on_non_human_entities_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        pigs_are_np,
-        os.path.join(input_dir, "pigs_are.json"),
-        os.path.join(output_dir_nouns, "pigs_are_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        provide_a_description_of_chickens_np,
-        os.path.join(input_dir, "provide_a_description_of_chickens.json"),
-        os.path.join(output_dir_nouns, "provide_a_description_of_chickens_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        provide_a_description_of_cows_np,
-        os.path.join(input_dir, "provide_a_description_of_cows.json"),
-        os.path.join(output_dir_nouns, "provide_a_description_of_cows_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        provide_a_description_of_wolves_np,
-        os.path.join(input_dir, "provide_a_description_of_wolves.json"),
-        os.path.join(output_dir_nouns, "provide_a_description_of_wolves_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        provide_a_description_of_fishes_np,
-        os.path.join(input_dir, "provide_a_description_of_fishes.json"),
-        os.path.join(output_dir_nouns, "provide_a_description_of_fishes_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        provide_a_description_of_trees_np,
-        os.path.join(input_dir, "provide_a_description_of_trees.json"),
-        os.path.join(output_dir_nouns, "provide_a_description_of_trees_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        provide_a_description_of_soil_np,
-        os.path.join(input_dir, "provide_a_description_of_soil.json"),
-        os.path.join(output_dir_nouns, "provide_a_description_of_soil_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        provide_a_description_of_mountains_np,
-        os.path.join(input_dir, "provide_a_description_of_mountains.json"),
-        os.path.join(output_dir_nouns, "provide_a_description_of_mountains_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        dogs_are_np,
-        os.path.join(input_dir, "dogs_are.json"),
-        os.path.join(output_dir_nouns, "dogs_are_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        horses_are_np,
-        os.path.join(input_dir, "horses_are.json"),
-        os.path.join(output_dir_nouns, "horses_are_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        sea_is_np,
-        os.path.join(input_dir, "sea_is.json"),
-        os.path.join(output_dir_nouns, "sea_is_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-    count_occurrences(
-        rivers_are_np,
-        os.path.join(input_dir, "rivers_are.json"),
-        os.path.join(output_dir_nouns, "rivers_are_noun_phrase_counts.json"),
-        phrase_type="noun_phrase"
-    )
-
-    # Verbs
-    count_occurrences(
-        what_are_animals_for_p,
-        os.path.join(input_dir, "what_are_animals_for.json"),
-        os.path.join(output_dir_verbs, "what_are_animals_for_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        what_is_the_soil_for_p,
-        os.path.join(input_dir, "what_is_the_soil_for.json"),
-        os.path.join(output_dir_verbs, "what_is_the_soil_for_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        what_is_the_soil_good_for_p,
-        os.path.join(input_dir, "what_is_the_soil_good_for.json"),
-        os.path.join(output_dir_verbs, "what_is_the_soil_good_for_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        what_are_animals_good_for_p,
-        os.path.join(input_dir, "what_are_animals_good_for.json"),
-        os.path.join(output_dir_verbs, "what_are_animals_good_for_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        what_are_mountains_good_for_p,
-        os.path.join(input_dir, "what_are_mountains_good_for.json"),
-        os.path.join(output_dir_verbs, "what_are_mountains_good_for_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        what_are_the_negative_effects_of_climate_change_p,
-        os.path.join(input_dir, "what_are_the_negative_effects_of_climate_change.json"),
-        os.path.join(output_dir_verbs, "what_are_the_negative_effects_of_climate_change_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        what_are_the_negative_effects_of_climate_change_on_humans_p,
-        os.path.join(input_dir, "what_are_the_negative_effects_of_climate_change_on_humans.json"),
-        os.path.join(output_dir_verbs, "what_are_the_negative_effects_of_climate_change_on_humans_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        what_are_the_negative_effects_of_climate_change_on_non_human_entities_p,
-        os.path.join(input_dir, "what_are_the_negative_effects_of_climate_change_on_non_human_entities.json"),
-        os.path.join(output_dir_verbs, "what_are_the_negative_effects_of_climate_change_on_non_human_entities_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        pigs_are_p,
-        os.path.join(input_dir, "pigs_are.json"),
-        os.path.join(output_dir_verbs, "pigs_are_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        provide_a_description_of_chickens_p,
-        os.path.join(input_dir, "provide_a_description_of_chickens.json"),
-        os.path.join(output_dir_verbs, "provide_a_description_of_chickens_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        provide_a_description_of_cows_p,
-        os.path.join(input_dir, "provide_a_description_of_cows.json"),
-        os.path.join(output_dir_verbs, "provide_a_description_of_cows_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        provide_a_description_of_wolves_p,
-        os.path.join(input_dir, "provide_a_description_of_wolves.json"),
-        os.path.join(output_dir_verbs, "provide_a_description_of_wolves_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        provide_a_description_of_fishes_p,
-        os.path.join(input_dir, "provide_a_description_of_fishes.json"),
-        os.path.join(output_dir_verbs, "provide_a_description_of_fishes_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        provide_a_description_of_trees_p,
-        os.path.join(input_dir, "provide_a_description_of_trees.json"),
-        os.path.join(output_dir_verbs, "provide_a_description_of_trees_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        provide_a_description_of_soil_p,
-        os.path.join(input_dir, "provide_a_description_of_soil.json"),
-        os.path.join(output_dir_verbs, "provide_a_description_of_soil_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        provide_a_description_of_mountains_p,
-        os.path.join(input_dir, "provide_a_description_of_mountains.json"),
-        os.path.join(output_dir_verbs, "provide_a_description_of_mountains_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        dogs_are_p,
-        os.path.join(input_dir, "dogs_are.json"),
-        os.path.join(output_dir_verbs, "dogs_are_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        horses_are_p,
-        os.path.join(input_dir, "horses_are.json"),
-        os.path.join(output_dir_verbs, "horses_are_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        sea_is_p,
-        os.path.join(input_dir, "sea_is.json"),
-        os.path.join(output_dir_verbs, "sea_is_verbs_counts.json"),
-        phrase_type="verbs"
-    )
-    count_occurrences(
-        rivers_are_p,
-        os.path.join(input_dir, "rivers_are.json"),
-        os.path.join(output_dir_verbs, "rivers_are_verbs_counts.json"),
-        phrase_type="verbs"
-    )
 
 # Call the function to process all counts
 process_all()
+
 
 """# Sort and save rankings
 
@@ -724,6 +330,7 @@ process_all()
 
 import os
 import json
+
 
 def sort_noun_phrase_counts(input_files, output_directory):
     try:
@@ -748,6 +355,7 @@ def sort_noun_phrase_counts(input_files, output_directory):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Specify the input files and output directory
 input_files_np = {
     "neutral": "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs/nouns_count/neutral_noun_phrase_counts.json",
@@ -767,244 +375,8 @@ output_directory_v = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated
 sort_noun_phrase_counts(input_files_np, output_directory_np)
 sort_noun_phrase_counts(input_files_v, output_directory_v)
 
-"""## Single Prompts"""
 
-import os
-import json
 
-def sort_files_in_directory(input_directory, output_directory, sorting_field):
-    try:
-        # Ensure the output directory exists
-        os.makedirs(output_directory, exist_ok=True)
-
-        # List all files in the input directory
-        for file_name in os.listdir(input_directory):
-            input_file_path = os.path.join(input_directory, file_name)
-
-            # Ensure it's a JSON file
-            if os.path.isfile(input_file_path) and file_name.endswith(".json"):
-                # Read the JSON file
-                with open(input_file_path, 'r') as file:
-                    data = json.load(file)
-
-                # Sort by the specified field in descending order
-                sorted_data = sorted(data, key=lambda x: x.get(sorting_field, 0), reverse=True)
-
-                # Save the sorted data to the output directory
-                output_file_path = os.path.join(output_directory, file_name)
-                with open(output_file_path, 'w') as file:
-                    json.dump(sorted_data, file, indent=4)
-
-                print(f"Sorted file saved to {output_file_path}")
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-# Base input directories
-noun_phrases_input_dir = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/single_prompt_results/noun_phrases_count"
-verbs_input_dir = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/single_prompt_results/verbs_count"
-
-# Base output directories
-noun_phrases_output_base_dir = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/single_prompt_results/rankings/noun_phrases"
-verbs_output_base_dir = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/single_prompt_results/rankings/verbs"
-
-# Sort and save files for each category
-categories = [
-    ("neutral", "neutral_count"),
-    ("anthropocentric", "anthropocentric_count"),
-    ("ecocentric", "ecocentric_count")
-]
-
-for category, count_field in categories:
-    noun_phrases_output_dir = os.path.join(noun_phrases_output_base_dir, category)
-    verbs_output_dir = os.path.join(verbs_output_base_dir, category)
-
-    sort_files_in_directory(noun_phrases_input_dir, noun_phrases_output_dir, count_field)
-    sort_files_in_directory(verbs_input_dir, verbs_output_dir, count_field)
-
-"""# Dependancy parsing"""
-
-import spacy
-import json
-
-def parse_dependency(json_data, experiment_name):
-    # Load the spaCy model (English in this case)
-    nlp = spacy.load("en_core_web_sm")
-
-    # Initialize a dictionary to store the parsed results
-    parsed_results = {}
-
-    # Iterate through each prompt type and parse the text
-    for key, text in json_data.items():
-        doc = nlp(text)
-        parsed_results[key] = {
-            "tokens": [
-                {
-                    "text": token.text,
-                    "lemma": token.lemma_,
-                    "pos": token.pos_,
-                    "tag": token.tag_,
-                    "dep": token.dep_,
-                    "head": token.head.text
-                }
-                for token in doc
-            ],
-            "noun_phrases": [chunk.text for chunk in doc.noun_chunks]
-        }
-
-    return parsed_results
-
-import os
-import json
-
-# Directory containing the JSON files
-input_dir = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/output"
-output_dir = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/dependancy_parsing"
-
-# Ensure output directory exists
-os.makedirs(output_dir, exist_ok=True)
-
-# Iterate over each JSON file in the input directory
-for file_name in os.listdir(input_dir):
-    if file_name.endswith(".json"):  # Process only JSON files
-        experiment_name = os.path.splitext(file_name)[0]
-        input_file_path = os.path.join(input_dir, file_name)
-
-        # Read the JSON file
-        with open(input_file_path, 'r') as file:
-            data = json.load(file)
-
-        # Parse the dependency
-        parsed_output = parse_dependency(data, experiment_name)
-
-        # Save the parsed output
-        output_file = os.path.join(output_dir, f"{experiment_name}_dep_pars.json")
-        with open(output_file, "w") as f:
-            json.dump(parsed_output, f, indent=4)
-
-        print(f"Processed and saved: {output_file}")
-
-"""## Heads frequencies"""
-
-# Import required libraries
-import os
-import json
-from collections import defaultdict, Counter
-from typing import Dict, List
-from pathlib import Path
-import spacy
-from IPython.display import display, JSON
-
-# Initialize spaCy and configuration
-nlp = spacy.load("en_core_web_sm")
-
-# Configure paths
-input_dir = Path("/content/drive/MyDrive/Anthropocentric_Bias/gpt/dependency_parsing")
-output_dir = Path("/content/drive/MyDrive/Anthropocentric_Bias/gpt/dependency_parsing/frequencies")
-output_dir.mkdir(exist_ok=True)
-
-# Define target words
-words_to_match = [
-    "animals", "soil", "mountains", "chickens", "horses", "wolves",
-    "fishes", "cows", "trees", "pigs", "dogs", "sea", "rivers"
-]
-
-# Create lemmatization cache
-lemma_cache = {}
-def get_lemma(word: str) -> str:
-    """Get lemma with caching for better performance."""
-    if word not in lemma_cache:
-        lemma_cache[word] = nlp(word.lower())[0].lemma_
-    return lemma_cache[word]
-
-# Pre-compute lemmas for matching
-lemma_dict = {get_lemma(word): word for word in words_to_match}
-
-# Initialize data structure for token processing
-token_data = {
-    'neutral': defaultdict(Counter),
-    'anthropocentric': defaultdict(Counter),
-    'ecocentric': defaultdict(Counter)
-}
-
-def process_file(file_path: Path) -> None:
-    """Process a single JSON file and extract token information."""
-    try:
-        with file_path.open('r') as f:
-            data = json.load(f)
-
-        for category in token_data.keys():
-            category_key = f"{category}_prompt"
-            tokens = data.get(category_key, {}).get("tokens", [])
-
-            for token in tokens:
-                text_lemma = get_lemma(token["text"])
-                if text_lemma in lemma_dict:
-                    original_word = lemma_dict[text_lemma]
-                    token_data[category][original_word][token["head"]] += 1
-
-    except json.JSONDecodeError:
-        print(f"Error reading JSON file: {file_path}")
-    except Exception as e:
-        print(f"Error processing file {file_path}: {str(e)}")
-
-# Process all files
-print("Processing files...")
-for file_path in input_dir.glob("*.json"):
-    process_file(file_path)
-    print(f"Processed: {file_path.name}")
-
-# Generate output data with sorted frequencies
-output_data = {}
-for category in token_data.keys():
-    category_data = []
-    for word in words_to_match:
-        # Get frequencies and sort them
-        frequencies = token_data[category][word]
-        sorted_frequencies = dict(sorted(frequencies.items(), key=lambda x: (-x[1], x[0])))
-
-        category_data.append({
-            "prompt_word": word,
-            f"list_of_{category}_heads": list(sorted_frequencies.keys()),
-            f"{category}_heads_occurrences": sorted_frequencies
-        })
-    output_data[category] = category_data
-
-# Save results
-for category, data in output_data.items():
-    output_file = output_dir / f"{category}_head_frequencies.json"
-    with output_file.open('w') as f:
-        json.dump(data, f, indent=4)
-    print(f"\nSaved {category} data to {output_file}")
-
-"""## Save unigrams and bigrams overlap"""
-
-import json
-
-# Load the JSON file
-with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/output/{experiment_name}.json', 'r') as file:
-    data = json.load(file)
-
-# Use the specific fields from the JSON data
-res_1 = calculate_word_overlap(data["neutral_prompt"], data["anthropocentric_prompt"], "neutral", "anthropocentric")
-res_2 = calculate_word_overlap(data["neutral_prompt"], data["ecocentric_prompt"], "neutral", "ecocentric")
-
-res_b_1 = calculate_bigram_overlap(data["neutral_prompt"], data["anthropocentric_prompt"], "neutral", "anthropocentric")
-res_b_2 = calculate_bigram_overlap(data["neutral_prompt"], data["ecocentric_prompt"], "neutral", "ecocentric")
-
-# Save the result to a JSON file
-with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/words_stats/unigrams/{experiment_name}_neutral_anth.json', 'w') as file:
-    json.dump(res_1, file, indent=4)
-
-with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/words_stats/unigrams/{experiment_name}_neutral_eco.json', 'w') as file:
-    json.dump(res_2, file, indent=4)
-
-# Save the result to a JSON file
-with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/words_stats/bigrams/{experiment_name}_neutral_anth.json', 'w') as file:
-    json.dump(res_b_1, file, indent=4)
-
-with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/words_stats/bigrams/{experiment_name}_neutral_eco.json', 'w') as file:
-    json.dump(res_b_2, file, indent=4)
 
 """## Draw histogram of frequencies"""
 
@@ -1012,9 +384,9 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 
-#ngram = "unigrams"
+# ngram = "unigrams"
 ngram = "bigrams"
-#type_cmp = "neutral_anth"
+# type_cmp = "neutral_anth"
 type_cmp = "neutral_eco"
 
 filename = f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/words_stats/{ngram}/{experiment_name}_{type_cmp}.json'
@@ -1035,9 +407,9 @@ labels = list(data.keys())
 count_1 = [data[key]["count_in_neutral"] for key in labels]
 
 if type_cmp == "neutral_anth":
-  count_2 = [data[key]["count_in_anthropocentric"] for key in labels]
+    count_2 = [data[key]["count_in_anthropocentric"] for key in labels]
 else:
-  count_2 = [data[key]["count_in_ecocentric"] for key in labels]
+    count_2 = [data[key]["count_in_ecocentric"] for key in labels]
 
 x = np.arange(len(labels))  # the label locations
 
@@ -1045,12 +417,11 @@ x = np.arange(len(labels))  # the label locations
 width = 0.35
 
 fig, ax = plt.subplots()
-rects1 = ax.bar(x - width/2, count_1, width, label='Neutral Prompt Answers', color='cornflowerblue')
+rects1 = ax.bar(x - width / 2, count_1, width, label='Neutral Prompt Answers', color='cornflowerblue')
 if type_cmp == "neutral_anth":
-  rects2 = ax.bar(x + width/2, count_2, width, label='Anthropocentric Prompt Answers', color='lightsalmon')
+    rects2 = ax.bar(x + width / 2, count_2, width, label='Anthropocentric Prompt Answers', color='lightsalmon')
 else:
-  rects2 = ax.bar(x + width/2, count_2, width, label='Ecocentric Prompt Answers', color='lightgreen')
-
+    rects2 = ax.bar(x + width / 2, count_2, width, label='Ecocentric Prompt Answers', color='lightgreen')
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
 ax.set_xlabel(ngram)
@@ -1072,13 +443,14 @@ def autolabel(rects):
                     textcoords="offset points",
                     ha='center', va='bottom')
 
+
 autolabel(rects1)
 autolabel(rects2)
 fig.set_size_inches(10, 6.5)
 fig.tight_layout()
 fig.savefig(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/graphs/{ngram}/hist/{experiment_name}_{type_cmp}.png')
 # Display the plot
-#plt.show()
+# plt.show()
 
 """# Histograms for aggregated
 
@@ -1103,6 +475,7 @@ os.makedirs(output_dir, exist_ok=True)
 # Categories to process
 categories = ["neutral", "anthropocentric", "ecocentric"]
 
+
 # Function to create and save a histogram
 def create_histogram(title, noun_phrases, counts, output_file):
     plt.figure(figsize=(10, 6))
@@ -1114,6 +487,7 @@ def create_histogram(title, noun_phrases, counts, output_file):
     plt.tight_layout()
     plt.savefig(output_file)
     plt.close()
+
 
 # Function to lemmatize, deduplicate, and sort noun phrases by frequency
 def lemmatize_deduplicate_and_sort(noun_phrases, counts):
@@ -1127,6 +501,7 @@ def lemmatize_deduplicate_and_sort(noun_phrases, counts):
     # Sort by frequency in descending order
     sorted_items = sorted(lemma_to_count.items(), key=lambda x: x[1], reverse=True)
     return [item[0] for item in sorted_items], [item[1] for item in sorted_items]
+
 
 # Process each category
 for category in categories:
@@ -1177,6 +552,7 @@ os.makedirs(output_dir, exist_ok=True)
 # Categories to process
 categories = ["neutral", "anthropocentric", "ecocentric"]
 
+
 # Function to create and save a histogram
 def create_histogram(title, verbs, counts, output_file):
     plt.figure(figsize=(10, 6))
@@ -1188,6 +564,7 @@ def create_histogram(title, verbs, counts, output_file):
     plt.tight_layout()
     plt.savefig(output_file)
     plt.close()
+
 
 # Function to lemmatize, deduplicate, and sort verbs by frequency
 def lemmatize_deduplicate_and_sort(verbs, counts):
@@ -1202,6 +579,7 @@ def lemmatize_deduplicate_and_sort(verbs, counts):
     # Sort by frequency in descending order
     sorted_items = sorted(lemma_to_count.items(), key=lambda x: x[1], reverse=True)
     return [item[0] for item in sorted_items], [item[1] for item in sorted_items]
+
 
 # Process each category
 for category in categories:
@@ -1254,16 +632,19 @@ files = {
 all_verbs = ecocentric_verbs | anthropocentric_verbs | neutral_verbs
 lemmatized_verbs = set([nlp(verb)[0].lemma_ for verb in all_verbs])
 
+
 # Function to read text files
 def read_text_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
+
 
 # Function to lemmatize text and count verb frequencies
 def count_verbs(text, verbs):
     doc = nlp(text)
     verb_frequencies = Counter(token.lemma_ for token in doc if token.lemma_ in verbs)
     return verb_frequencies
+
 
 # Analyze files
 results = {}
@@ -1290,7 +671,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Combine relevant verbs
-relevant_verbs_selection = set({'disrupt', 'impact', 'supply', 'mitigate', 'pet', 'respect', 'support', 'protect', 'help', 'contribute', 'sustain', 'live', 'regulate', 'purify', 'cause', 'adapt', 'maintain', 'balance', 'provide', 'serve', 'domesticate', 'breed', 'benefit', 'raise', 'thrive', 'offer'})
+relevant_verbs_selection = set(
+    {'disrupt', 'impact', 'supply', 'mitigate', 'pet', 'respect', 'support', 'protect', 'help', 'contribute', 'sustain',
+     'live', 'regulate', 'purify', 'cause', 'adapt', 'maintain', 'balance', 'provide', 'serve', 'domesticate', 'breed',
+     'benefit', 'raise', 'thrive', 'offer'})
 
 # Filter verbs with frequency >= 30 and present in relevant lists
 filtered_verbs = {}
@@ -1354,6 +738,7 @@ neutral_file = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outpu
 anthropocentric_file = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs/anthropocentric_outputs.txt"
 ecocentric_file = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs/ecocentric_outputs.txt"
 
+
 # Load words from each file
 
 def load_words(file_path):
@@ -1361,6 +746,7 @@ def load_words(file_path):
         content = file.read()
         words = set(content.split())  # Split content into unique words
     return words
+
 
 neutral_words = load_words(neutral_file)
 anthropocentric_words = load_words(anthropocentric_file)
@@ -1400,6 +786,7 @@ neutral_file = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outpu
 anthropocentric_file = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs/anthropocentric_outputs.txt"
 ecocentric_file = "/content/drive/MyDrive/Anthropocentric_Bias/gpt/aggregated_outputs/ecocentric_outputs.txt"
 
+
 # Load and lemmatize words from each file
 def load_and_lemmatize_words(file_path):
     with open(file_path, "r") as file:
@@ -1407,6 +794,7 @@ def load_and_lemmatize_words(file_path):
         words = content.split()  # Split content into words
         lemmatized_words = {token.lemma_ for token in nlp(" ".join(words)) if token.is_alpha}  # Lemmatize and filter
     return lemmatized_words
+
 
 neutral_words = load_and_lemmatize_words(neutral_file)
 anthropocentric_words = load_and_lemmatize_words(anthropocentric_file)
@@ -1508,6 +896,7 @@ print(f"Venn diagram saved at {output_file}")
 import matplotlib.pyplot as plt
 from matplotlib_venn import venn3
 
+
 def create_venn(doc1, doc2, doc3, labels, compute_bigrams=False):
     doc1 = doc1.replace('\n', '')
     doc2 = doc2.replace('\n', '')
@@ -1520,9 +909,9 @@ def create_venn(doc1, doc2, doc3, labels, compute_bigrams=False):
 
     # Step 2: Generate bigrams using NLTK
     if compute_bigrams:
-      tokens1 = [' '.join(bigram) for bigram in bigrams(tokens1)]
-      tokens2 = [' '.join(bigram) for bigram in bigrams(tokens2)]
-      tokens3 = [' '.join(bigram) for bigram in bigrams(tokens3)]
+        tokens1 = [' '.join(bigram) for bigram in bigrams(tokens1)]
+        tokens2 = [' '.join(bigram) for bigram in bigrams(tokens2)]
+        tokens3 = [' '.join(bigram) for bigram in bigrams(tokens3)]
 
     # Convert bigrams to sets
     set1 = set(tokens1)
@@ -1540,19 +929,22 @@ def create_venn(doc1, doc2, doc3, labels, compute_bigrams=False):
     venn_diagram.get_patch_by_id('001').set_color(colors[2])
     # Display the plot
     if compute_bigrams:
-      ngram = "bigrams"
+        ngram = "bigrams"
     else:
-      ngram = "unigrams"
+        ngram = "unigrams"
     fig.tight_layout()
     fig.savefig(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/graphs/{ngram}/venn/{experiment_name}.png')
-    #plt.show()
+    # plt.show()
+
 
 # Load the JSON file
 with open(f'/content/drive/MyDrive/Anthropocentric_Bias/gpt/output/{experiment_name}.json', 'r') as file:
     data = json.load(file)
 
-create_venn(data['neutral_prompt'], data['anthropocentric_prompt'], data['ecocentric_prompt'], ['neutral', 'anthropocentric', 'ecocentric'], True)
-create_venn(data['neutral_prompt'], data['anthropocentric_prompt'], data['ecocentric_prompt'], ['neutral', 'anthropocentric', 'ecocentric'], False)
+create_venn(data['neutral_prompt'], data['anthropocentric_prompt'], data['ecocentric_prompt'],
+            ['neutral', 'anthropocentric', 'ecocentric'], True)
+create_venn(data['neutral_prompt'], data['anthropocentric_prompt'], data['ecocentric_prompt'],
+            ['neutral', 'anthropocentric', 'ecocentric'], False)
 
 """## Venn on Categories"""
 
@@ -1600,10 +992,12 @@ natural_entities = [
     'rivers_are'
 ]
 
+
 # Function to process text into lemmas, removing stopwords and punctuation
 def process_text(text):
     doc = nlp(text)
     return {token.lemma_ for token in doc if not token.is_stop and token.is_alpha}
+
 
 # Function to aggregate data from JSON files
 def aggregate_category_data(file_list):
@@ -1630,6 +1024,7 @@ def aggregate_category_data(file_list):
 
     return eco_data, antro_data, neutral_data
 
+
 # Function to create and save a Venn diagram
 def create_and_save_venn(category_name, eco_data, antro_data, neutral_data):
     plt.figure(figsize=(10, 8))
@@ -1642,6 +1037,7 @@ def create_and_save_venn(category_name, eco_data, antro_data, neutral_data):
     plt.savefig(output_file)
     plt.close()
     print(f"Venn diagram saved for {category_name} at {output_file}")
+
 
 # Process categories
 categories = {
@@ -1712,12 +1108,14 @@ files = {
 with open(glossary_file, "r") as file:
     glossary_words = set(eval(file.read()))  # Load as a Python list and convert to set for fast lookup
 
+
 # Function to read words from a file
 def load_words(file_path):
     with open(file_path, "r") as file:
         content = file.read().lower()  # Lowercase for consistent matching
         words = set(content.split())  # Split into unique words
     return words
+
 
 # Create Venn diagrams
 for category, file_path in files.items():
@@ -1762,6 +1160,7 @@ files = {
     "neutral": os.path.join(input_dir, "neutral_outputs.txt"),
 }
 
+
 # Function to preprocess text: lemmatize, remove stopwords, and punctuation
 def preprocess_text(words):
     processed_words = set()
@@ -1772,10 +1171,12 @@ def preprocess_text(words):
                 processed_words.add(token.lemma_)
     return processed_words
 
+
 # Load and preprocess the glossary
 with open(glossary_file, "r") as file:
     glossary_words = set(eval(file.read()))  # Load as a Python list
     glossary_words = preprocess_text(glossary_words)
+
 
 # Function to read and preprocess words from a file
 def load_and_preprocess_words(file_path):
@@ -1783,6 +1184,7 @@ def load_and_preprocess_words(file_path):
         content = file.read().lower()  # Lowercase for consistent matching
         words = set(content.split())  # Split into unique words
     return preprocess_text(words)
+
 
 # Create Venn diagrams
 for category, file_path in files.items():
@@ -1794,7 +1196,8 @@ for category, file_path in files.items():
         subsets=(category_words, glossary_words),
         set_labels=(f"Words Generated From {category.capitalize()} Prompt", "Anthropocentric Glossary")
     )
-    plt.title(f"Lemmatized Word Overlap: {category.capitalize()} Prompt & Anthropocentric Glossary", fontdict={"fontsize": 12, "fontweight":"bold"})
+    plt.title(f"Lemmatized Word Overlap: {category.capitalize()} Prompt & Anthropocentric Glossary",
+              fontdict={"fontsize": 12, "fontweight": "bold"})
     # Save the Venn diagram
     output_file = os.path.join(output_dir, f"{category}_glossary_venn_lemmas.png")
     plt.savefig(output_file)
@@ -1830,14 +1233,17 @@ files = {
 # Create output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
 
+
 def read_glossary_file(file_path):
     with open(file_path, 'r') as file:
         content = file.read()
         return ast.literal_eval(content)
 
+
 def read_text_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
+
 
 def lemmatize_text(text):
     max_length = len(text)
@@ -1848,10 +1254,11 @@ def lemmatize_text(text):
         chunk = text[i:i + chunk_size]
         doc = nlp(chunk)
         chunk_words = [token.lemma_.lower() for token in doc
-                      if token.is_alpha and not token.is_stop]
+                       if token.is_alpha and not token.is_stop]
         lemmatized_words.update(chunk_words)
 
     return lemmatized_words
+
 
 def create_venn_diagram(text_words, glossary_words, output_path, file_type):
     text_set = set(text_words.keys())
@@ -1864,7 +1271,7 @@ def create_venn_diagram(text_words, glossary_words, output_path, file_type):
     plt.figure(figsize=(10, 10))
     venn2(subsets=(only_text, only_glossary, intersection),
           set_labels=(f'{file_type.capitalize()} Words\n(Total: {total_text_words:,})',
-                     f'Anthropocentric Glossary Words\n(Total: {len(glossary_words):,})'))
+                      f'Anthropocentric Glossary Words\n(Total: {len(glossary_words):,})'))
     plt.title(f'Word Overlap between {file_type.capitalize()} Outputs and Anthropocentric Glossary\n' +
               f'(Intersection: {intersection:,} occurrences)')
 
@@ -1877,6 +1284,7 @@ def create_venn_diagram(text_words, glossary_words, output_path, file_type):
         'intersection_occurrences': intersection,
         'intersection_unique': len(text_set & glossary_words)
     }
+
 
 def save_word_lists(text_words, glossary_words, output_dir, file_type):
     text_words_path = os.path.join(output_dir, f'{file_type}_words_frequencies.txt')
@@ -1891,6 +1299,7 @@ def save_word_lists(text_words, glossary_words, output_dir, file_type):
         f.write("word\tfrequency\n")
         for word in sorted(overlap):
             f.write(f"{word}\t{text_words[word]}\n")
+
 
 # Read and process glossary
 print("Processing glossary...")
@@ -1925,9 +1334,9 @@ for file_type, file_path in files.items():
     print(f"\nTop overlapping words with frequencies for {file_type} (top 10):")
     overlapping_words = set(text_word_frequencies.keys()) & glossary_words
     sorted_overlap = sorted([(word, text_word_frequencies[word])
-                            for word in overlapping_words],
-                           key=lambda x: x[1],
-                           reverse=True)[:10]
+                             for word in overlapping_words],
+                            key=lambda x: x[1],
+                            reverse=True)[:10]
     for word, freq in sorted_overlap:
         print(f"{word}: {freq}")
 
@@ -1946,11 +1355,13 @@ neutral_file = os.path.join(input_dir, "neutral_outputs.txt")
 anthropocentric_file = os.path.join(input_dir, "anthropocentric_outputs.txt")
 ecocentric_file = os.path.join(input_dir, "ecocentric_outputs.txt")
 
+
 # Function to count occurrences of words in a file
 def count_occurrences(words, file_path):
     with open(file_path, "r") as file:
         content = file.read().lower()  # Convert content to lowercase for case-insensitive matching
     return {word: content.count(word) for word in words}
+
 
 # Load the glossary
 with open(glossary_file, "r") as file:
@@ -2003,14 +1414,17 @@ files = {
     "neutral": os.path.join(input_dir, "neutral_outputs.txt"),
 }
 
+
 def read_glossary_file(file_path):
     with open(file_path, 'r') as file:
         content = file.read()
         return ast.literal_eval(content)
 
+
 def read_text_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
+
 
 def lemmatize_text(text):
     max_length = len(text)
@@ -2021,10 +1435,11 @@ def lemmatize_text(text):
         chunk = text[i:i + chunk_size]
         doc = nlp(chunk)
         chunk_words = [token.lemma_.lower() for token in doc
-                      if token.is_alpha and not token.is_stop]
+                       if token.is_alpha and not token.is_stop]
         lemmatized_words.update(chunk_words)
 
     return lemmatized_words
+
 
 # Read and process glossary
 print("Processing glossary...")
@@ -2035,9 +1450,9 @@ results = []
 
 # Process each file
 for file_type, file_path in files.items():
-    print(f"\n{'='*50}")
+    print(f"\n{'=' * 50}")
     print(f"Statistics for {file_type.upper()} outputs:")
-    print('='*50)
+    print('=' * 50)
 
     # Process text file
     text_content = read_text_file(file_path)
@@ -2062,8 +1477,8 @@ for file_type, file_path in files.items():
     # Frequencies of overlapping words
     print("\nFrequencies of overlapping words (top 10, sorted by frequency):")
     overlapping_words = [(word, word_frequencies[word])
-                        for word in glossary_words
-                        if word in word_frequencies]
+                         for word in glossary_words
+                         if word in word_frequencies]
     sorted_overlap = sorted(overlapping_words, key=lambda x: x[1], reverse=True)[:10]
     for word, freq in sorted_overlap:
         print(f"    {word}: {freq:,}")
