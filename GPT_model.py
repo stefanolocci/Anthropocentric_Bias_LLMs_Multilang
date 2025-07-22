@@ -1,7 +1,7 @@
 from openai import OpenAI
 import json
 
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="MY_OPENAI_KEY")
 
 model = "gpt-3.5-turbo-0125"
 #model = "gpt-3.5-turbo-0301",
